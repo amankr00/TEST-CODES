@@ -1,0 +1,152 @@
+// If element is pushed to a full stack a new array twice the size of previous one is created dynamically.. 
+// And copy each element according to the indec from previous array to newly craeted array // 
+// Create a stack stricture - > int top , int* arr , int size ;
+
+
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+struct stack{
+    int size;
+    int top;
+    int *arr;
+    int *arr2;
+};
+
+
+int isEmpty(struct stack *s)
+{
+    if(s->top == -1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int isFull(struct stack *s)
+{
+    if(s->top == s->size-1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int doubleSize(struct stack *s , int value)
+{
+     s->size = s->size * 2 ;
+     cout << "Size increased\n";
+     s->arr2 = (int *) malloc(s->size * sizeof(int));
+     for(int i=0;i<=s->top;i++)
+     {
+        s->arr2[i]= s->arr[i];
+     }
+     s->arr = (int *) malloc(s->size * sizeof(int));
+     for(int i=0;i<=s->top;i++)
+     {
+        s->arr[i]= s->arr2[i];
+     }
+    //  void free(void* s->arr2);
+     s->top++;
+     s->arr[s->top] = value ;
+     cout << "Element pushed in new Array\n";
+
+     
+     return s->top;
+}
+
+int push(struct stack *s, int value)
+{
+    if(isFull(s))
+    {
+        cout << "\nDoubling the Size of Array......\n";
+        doubleSize(s , value);
+        return s->top;
+    }
+    else
+    {
+         s->top++;
+         s->arr[s->top] = value ;
+         cout << "Element pushed in Stack\n";
+         return s->top;
+    }
+}
+
+void pop(struct stack *s)
+{
+    if(s->top == -1)
+    {
+        cout << "Empty Stack\n";
+    }
+    else
+    {
+    int copy  = s->arr[s->top];
+    s->top--;
+    cout << copy << " is popped off\n";
+    }
+}
+
+void display(struct stack *s)
+{
+    int i;
+    cout << "Elements in stack: ";
+    for(i=0;i<=s->top;i++)
+    {
+        cout << s->arr[i] << "  ";
+    }
+    cout << "\n\n";
+}
+
+int main(){
+ 
+    struct stack *s = (struct stack*)malloc(sizeof(struct stack));
+    s->size = 10; 
+    s->top = -1;    //as not points to anything initially ;;    
+    s->arr = (int*)malloc(s->size * sizeof(int));
+
+    cout << "\n\n\t\t\tStack is Created Dynamically using array of size : " << s->size  <<  "\n\n";
+    int option ,val ;
+
+    do {
+        cout << "Size of array of the stack : " << s->size << "\n"; 
+        cout << "\nEach push operation occurs 10 times\n\n";
+        cout << "\n1.push()\n2.pop()\n3.display()\n4.TO EXIT\n\n";
+        cout << "Your choice : ";
+        cin >> option;
+
+        switch (option) 
+        {
+
+        case 1 : cout << "\nEnter value to Push : ";
+                cin >> val;
+                s->top = push(s,val);
+                s->top = push(s,val);
+                s->top = push(s,val);
+                s->top = push(s,val);
+                s->top = push(s,val);
+                s->top = push(s,val);
+                s->top = push(s,val);
+                s->top = push(s,val);
+                s->top = push(s,val);
+                s->top = push(s,val);
+                break;
+        case 2 : pop(s);
+                 break;
+                
+        case 3 : display(s);
+                break;
+
+        }
+
+    }while(option != 0);
+
+    
+    return 0;
+}
